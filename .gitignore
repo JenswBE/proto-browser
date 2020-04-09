@@ -25,12 +25,6 @@
 !/src/assets/.gitkeep
 
 !/src/components/
+!/src/components/Loader.vue
 !/src/components/MessageNode.vue
-
-!/src/router/
-!/src/router/index.js
-
-!/src/views/
-!/src/views/Load.vue
-!/src/views/Render.vue
-
+!/src/components/Renderer.vue
