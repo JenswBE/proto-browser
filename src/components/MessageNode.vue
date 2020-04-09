@@ -3,11 +3,17 @@
     <li>
       {{ node.name }}
       <ul>
-        <Node
-          v-for="field in node.fields"
-          :node="field"
-          :key="field.name"
-        ></Node>
+        <template v-for="child in node.children">
+          <Node
+            v-if="child.type === 'field'"
+            :node="child"
+            :key="child.name"
+          ></Node>
+
+          <li v-if="child.type === 'enum'" :key="child.name">
+            {{ child.values.join(', ') }}
+          </li>
+        </template>
       </ul>
     </li>
   </div>

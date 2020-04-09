@@ -117,7 +117,7 @@ export default {
       let message = this.messages[this.messageName]
       return {
         name: message.name,
-        fields: this.getFields(message),
+        children: this.getChildren(message),
       }
     },
   },
@@ -127,8 +127,56 @@ export default {
       this.$emit('newProto')
     },
 
-    getFields() {
-      return []
+    getChildren(message) {
+      let enums = []
+      if (typeof message.nested !== 'undefined') {
+        for (let key in message.nested) {
+          enums.push({
+            name: key,
+            type: 'enum',
+            values: Object.keys(message.nested[key].values),
+          })
+        }
+      }
+
+      let fields = []
+      if (typeof message.fields !== 'undefined') {
+        for (let fieldName in message.fields) {
+          let field = message.fields[fieldName]
+          console.log(field.name)
+          if (field.type.syntaxType === 'BaseType') {
+            // Simple field
+            fields.push({
+              name: field.name,
+              type: 'field',
+              children: [],
+            })
+          } else {
+            // Field references another message
+            console.log(field.type.value)
+            let referencedMessage = this.messages[field.type.value]
+            console.log(referencedMessage)
+            fields.push({
+              name: field.name,
+              type: 'field',
+              children: this.getChildren(referencedMessage),
+            })
+          }
+        }
+      }
+
+      // Collect fields
+      let result = [...enums, ...fields]
+
+      // Sort fields. No sort = keeps position
+      if (this.sortType === this.sortTypes.NAME) {
+        result = result.sort((a, b) =>
+          a.name.toUpperCase().localeCompare(b.name.toUpperCase())
+        )
+      }
+
+      // Return results
+      return result
     },
   },
 }
