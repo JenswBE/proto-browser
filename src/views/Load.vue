@@ -1,14 +1,34 @@
 <template>
   <div>
     <b-jumbotron
-      v-if="currentMode == modes.LOAD"
       header="Proto Browser"
       header-level="4"
       style="padding: 2rem 2rem;"
     ></b-jumbotron>
 
     <b-container>
-      <template v-if="currentMode == modes.LOAD">
+      <b-card>
+        <b-form>
+          <b-form-group
+            id="input-group-proto-file"
+            label="Protobuf .proto file:"
+            label-for="input-proto-file"
+          >
+            <b-form-file
+              id="input-proto-file"
+              v-model="ioProtoFile"
+              :state="Boolean(ioProtoFile)"
+              placeholder="Choose a file or drop it here..."
+              drop-placeholder="Drop file here..."
+              @input="parseProtoFile"
+            ></b-form-file>
+          </b-form-group>
+        </b-form>
+      </b-card>
+
+      <p class="pt-5 pb-5 text-center">OR</p>
+
+      <b-card>
         <b-form>
           <b-form-group
             id="input-group-proto-text-url"
@@ -17,46 +37,22 @@
           >
             <b-form-input
               id="input-proto-text-url"
-              v-model="ioProtoTextURL"
+              v-model="ioProtoURL"
               placeholder="E.g. https://raw.githubusercontent.com/..."
+              disabled
             >
             </b-form-input>
             <b-button
               variant="primary"
               class="mt-3"
-              :disabled="!ioProtoTextURL"
+              :disabled="true"
               @click="fetchProtoText"
             >
-              Load</b-button
-            >
+              Load
+            </b-button>
           </b-form-group>
         </b-form>
-
-        <p class="pt-5 pb-5">OR</p>
-
-        <b-form>
-          <b-form-group
-            id="input-group-proto-file"
-            label="Protobuf JSON file:"
-            label-for="input-proto-file"
-          >
-            <b-form-file
-              id="input-proto-file"
-              v-model="ioProtoJSONFile"
-              :state="Boolean(ioProtoJSONFile)"
-              placeholder="Choose a file or drop it here..."
-              drop-placeholder="Drop file here..."
-              @input="parseProtoJSON"
-            ></b-form-file>
-            <template v-slot:description>
-              <code>
-                sudo npm install --global protobufjs<br />
-                pbjs -t json bookings.proto > bookings.proto.json
-              </code>
-            </template>
-          </b-form-group>
-        </b-form>
-      </template>
+      </b-card>
     </b-container>
   </div>
 </template>
@@ -73,8 +69,9 @@ export default {
         RENDER: 'render',
       },
       currentMode: 'load',
-      ioProtoJSONFile: null,
-      ioProtoTextURL: '',
+      ioProtoFile: null,
+      ioProtoURL: 'WIP - Coming soon',
+      ioProtoContents: '',
       namespace: null,
       messagesList: [],
       messageName: 'Bookings',
@@ -96,7 +93,7 @@ export default {
       // // Capture current context
       // let vm = this
       // // Load Protobuf from remote URL
-      // protobuf.load(this.ioProtoTextURL, (error, root) => {
+      // protobuf.load(this.ioProtoURL, (error, root) => {
       //   if (error) alert(error)
       //   vm.namespace = root.nestedArray[0]
       //   // Trigger message extraction
@@ -104,7 +101,7 @@ export default {
       // })
     },
 
-    parseProtoJSON() {
+    parseProtoFile() {
       // let vm = this
       let reader = new FileReader()
       reader.onload = () => {
@@ -117,7 +114,7 @@ export default {
         // // Trigger message extraction
         // vm.getMessagesFromProto()
       }
-      reader.readAsText(this.ioProtoJSONFile)
+      reader.readAsText(this.ioProtoFile)
     },
 
     getMessagesFromProto() {
@@ -202,7 +199,7 @@ export default {
 
     startLoadMode() {
       // Clean up
-      this.ioProtoJSONFile = null
+      this.ioProtoFile = null
       this.namespace = null
       this.messagesList = []
       this.node = {}
