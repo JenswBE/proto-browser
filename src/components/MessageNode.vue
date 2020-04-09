@@ -16,8 +16,6 @@
 <script>
 export default {
   name: 'Node',
-  props: {
-    node: Object,
-  },
+  props: ['node'],
 }
 </script>

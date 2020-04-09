@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <Loader v-if="currentMode == modes.LOAD" @loaded="protoLoaded" />
-    <Renderer v-else @newProto="loadNewProto" />
+    <Renderer
+      v-else
+      :pkg="protoPackage"
+      :messages="protoMessages"
+      @newProto="loadNewProto"
+    />
   </div>
 </template>
 
@@ -22,15 +27,17 @@ export default {
         RENDER: 'render',
       },
       currentMode: 'load',
-      proto: {},
+      protoPackage: '',
+      protoMessages: [],
     }
   },
 
   methods: {
     protoLoaded(proto) {
-      console.log(proto)
-      this.proto = proto
+      this.protoPackage = proto.package
+      this.protoMessages = proto.root.nested[proto.package].nested
       this.currentMode = this.modes.RENDER
+      console.log(this.protoMessages)
     },
 
     loadNewProto() {
