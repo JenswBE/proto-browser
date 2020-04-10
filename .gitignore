@@ -13,9 +13,16 @@
 !/README.md
 !/yarn.lock
 
+!/.github/
+!/.github/workflows/
+!/.github/workflows/build-and-publish.yml
+
 !/public/
 !/public/favicon.ico
 !/public/index.html
+
+!/public/icon
+!/public/icon/*
 
 !/src/
 !/src/App.vue
