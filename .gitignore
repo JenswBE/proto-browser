@@ -18,6 +18,8 @@
 !/.github/workflows/build-and-publish.yml
 
 !/public/
+!/public/.nojekyll
+!/public/CNAME
 !/public/favicon.ico
 !/public/index.html
 
