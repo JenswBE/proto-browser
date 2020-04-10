@@ -1,11 +1,15 @@
 <template>
   <div>
     <li>
-      {{ node.name }}: {{ node.type }}
+      <span class="proto-field-name">{{ node.name }}</span
+      >{{ node.required ? '*' : '' }}: {{ node.repeated ? '[]' : ''
+      }}{{ node.type }}
       <ul>
         <template v-for="child in node.children">
           <li v-if="child.kind === 'basic'" :key="child.name">
-            {{ child.name }}: {{ child.type }}
+            <span class="proto-field-name">{{ child.name }}</span
+            >{{ child.required ? '*' : '' }}: {{ child.repeated ? '[]' : ''
+            }}{{ child.type }}
           </li>
 
           <Node
@@ -15,7 +19,10 @@
           ></Node>
 
           <li v-if="child.kind === 'enum'" :key="child.name">
-            {{ child.name }}: Enum {{ formatEnumValues(child.values) }}
+            <span class="proto-field-name">{{ child.name }}</span
+            >{{ child.required ? '*' : '' }}:
+            {{ child.repeated ? '[]' : '' }}Enum
+            {{ formatEnumValues(child.values) }}
           </li>
         </template>
       </ul>
@@ -32,10 +39,19 @@ export default {
     formatEnumValues(values) {
       let output = []
       for (let key in values) {
-        output.push(`${key} (${values[key]})`)
+        if (Object.prototype.hasOwnProperty.call(values, key)) {
+          // Only show properties which were not inherited from prototype
+          output.push(`${key} (${values[key]})`)
+        }
       }
       return output.join(', ')
     },
   },
 }
 </script>
+
+<style scoped>
+.proto-field-name {
+  font-weight: bold;
+}
+</style>

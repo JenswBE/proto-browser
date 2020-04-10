@@ -180,6 +180,8 @@ export default {
             fields.push({
               name: field.name,
               kind: 'basic',
+              repeated: field.repeated,
+              required: field.required,
               type: field.type.value,
             })
           } else {
@@ -193,6 +195,8 @@ export default {
               fields.push({
                 name: field.name,
                 kind: 'enum',
+                repeated: field.repeated,
+                required: field.required,
                 values: referencedType.values,
               })
             } else {
@@ -200,6 +204,8 @@ export default {
               fields.push({
                 name: field.name,
                 kind: 'nested',
+                repeated: field.repeated,
+                required: field.required,
                 type: field.type.value,
                 children: this.getChildren(referencedType),
               })
