@@ -251,6 +251,21 @@ export default {
             let key = this.convertToDollarKey(field.type.resolvedValue)
             let referencedType = this.typeMap[key]
 
+            if (typeof referencedType === 'undefined') {
+              // Type not found in current file
+              console.warn(
+                `Field ${field.fullName}: Key "${key}" not found in types of document`
+              )
+              fields.push({
+                name: field.name,
+                kind: 'basic',
+                repeated: field.repeated,
+                required: field.required,
+                type: field.type.value + ' (not in document)',
+              })
+              continue
+            }
+
             if (referencedType.syntaxType === 'EnumDefinition') {
               // Type is Enum
               fields.push({
