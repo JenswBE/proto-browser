@@ -37,7 +37,7 @@
       </b-col>
 
       <b-col cols="2">
-        <b-button variant="primary" @click="loadNewProto">
+        <b-button variant="success" @click="loadNewProto">
           Load new proto
         </b-button>
       </b-col>

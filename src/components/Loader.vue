@@ -39,14 +39,13 @@
               id="input-proto-text-url"
               v-model="ioProtoURL"
               placeholder="E.g. https://raw.githubusercontent.com/..."
-              disabled
             >
             </b-form-input>
             <b-button
               variant="primary"
               class="mt-3"
-              :disabled="true"
-              @click="fetchProtoText"
+              :disabled="ioProtoURL === ''"
+              @click="fetchProtoFromURL"
             >
               Load
             </b-button>
@@ -58,28 +57,29 @@
 </template>
 
 <script>
+import axios from 'axios'
 import * as parser from 'proto-parser'
 
 export default {
   data: function() {
     return {
       ioProtoFile: null,
-      ioProtoURL: 'WIP - Coming soon',
+      ioProtoURL: '',
       ioProtoContents: '',
       proto: {},
     }
   },
   methods: {
-    fetchProtoText() {
-      // // Capture current context
-      // let vm = this
-      // // Load Protobuf from remote URL
-      // protobuf.load(this.ioProtoURL, (error, root) => {
-      //   if (error) alert(error)
-      //   vm.namespace = root.nestedArray[0]
-      //   // Trigger message extraction
-      //   vm.getMessagesFromProto()
-      // })
+    fetchProtoFromURL() {
+      axios
+        .get(this.ioProtoURL.trim())
+        .then((res) => {
+          this.ioProtoContents = res.data
+          this.parseProtoContents()
+        })
+        .catch((err) => {
+          alert(err)
+        })
     },
 
     parseProtoFile() {
