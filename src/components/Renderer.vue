@@ -113,10 +113,30 @@ export default {
       },
     },
 
+    typeMap() {
+      let result = {}
+      for (let key in this.messages) {
+        // Extract message
+        let message = this.messages[key]
+
+        // Store current message in map
+        let type = message.fullName
+        result[this.convertToDollarKey(type)] = message
+
+        // Get nested types and store in map
+        let types = this.getNestedTypes(message)
+        Object.assign(result, types)
+      }
+
+      return result
+    },
+
     rootNode() {
       let message = this.messages[this.messageName]
       return {
         name: message.name,
+        kind: 'nested',
+        type: message.name,
         children: this.getChildren(message),
       }
     },
@@ -127,56 +147,76 @@ export default {
       this.$emit('newProto')
     },
 
-    getChildren(message) {
-      let enums = []
+    getNestedTypes(message) {
+      let result = {}
       if (typeof message.nested !== 'undefined') {
         for (let key in message.nested) {
-          enums.push({
-            name: key,
-            type: 'enum',
-            values: Object.keys(message.nested[key].values),
-          })
+          // Extract nested type
+          let nestedType = message.nested[key]
+
+          // Store current type in map
+          let type = nestedType.fullName
+          result[this.convertToDollarKey(type)] = nestedType
+
+          // Get nested types and store in map
+          let types = this.getNestedTypes(nestedType)
+          Object.assign(result, types)
         }
       }
+      return result
+    },
 
+    convertToDollarKey(key) {
+      return key.replace(/\./g, '$')
+    },
+
+    getChildren(message) {
       let fields = []
       if (typeof message.fields !== 'undefined') {
         for (let fieldName in message.fields) {
           let field = message.fields[fieldName]
-          console.log(field.name)
           if (field.type.syntaxType === 'BaseType') {
             // Simple field
             fields.push({
               name: field.name,
-              type: 'field',
-              children: [],
+              kind: 'basic',
+              type: field.type.value,
             })
           } else {
-            // Field references another message
-            console.log(field.type.value)
-            let referencedMessage = this.messages[field.type.value]
-            console.log(referencedMessage)
-            fields.push({
-              name: field.name,
-              type: 'field',
-              children: this.getChildren(referencedMessage),
-            })
+            // Field references another message or enum
+            let key = this.convertToDollarKey(field.type.resolvedValue)
+            let referencedType = this.typeMap[key]
+
+            if (referencedType.syntaxType === 'EnumDefinition') {
+              // Type is Enum
+              console.log(referencedType.values)
+              fields.push({
+                name: field.name,
+                kind: 'enum',
+                values: referencedType.values,
+              })
+            } else {
+              // Type is message
+              fields.push({
+                name: field.name,
+                kind: 'nested',
+                type: field.type.value,
+                children: this.getChildren(referencedType),
+              })
+            }
           }
         }
       }
 
-      // Collect fields
-      let result = [...enums, ...fields]
-
       // Sort fields. No sort = keeps position
       if (this.sortType === this.sortTypes.NAME) {
-        result = result.sort((a, b) =>
+        fields = fields.sort((a, b) =>
           a.name.toUpperCase().localeCompare(b.name.toUpperCase())
         )
       }
 
       // Return results
-      return result
+      return fields
     },
   },
 }
