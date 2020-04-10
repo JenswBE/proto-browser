@@ -45,11 +45,38 @@
 
     <hr />
 
-    <MessageNode :node="rootNode" />
+    <b-container>
+      <b-form class="pb-5">
+        <b-row>
+          <b-col cols="10">
+            <b-form-group id="input-group-search">
+              <b-form-input
+                id="input-search"
+                v-model="searchText"
+                placeholder="Search ..."
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+          <b-col cols="2">
+            <b-button variant="outline-primary" @click="resetSearch"
+              >CLEAR</b-button
+            >
+          </b-col>
+        </b-row>
+      </b-form>
+    </b-container>
+
+    <MessageNode :node="filteredRootNode" :searched="searchText !== ''" />
+
+    <div id="btn-to-top">
+      <a href="#app" class="btn btn-primary">TOP</a>
+    </div>
   </b-container>
 </template>
 
 <script>
+import cloneDeep from 'lodash/cloneDeep'
 import MessageNode from './MessageNode'
 
 export default {
@@ -140,11 +167,33 @@ export default {
         children: this.getChildren(message),
       }
     },
+
+    filteredRootNode() {
+      // Local copy of root node
+      let rootNode = cloneDeep(this.rootNode)
+
+      // Search in children
+      if (this.searchText !== '') {
+        let { nodes } = this.searchInNodes(
+          rootNode.children,
+          this.searchText,
+          true
+        )
+        rootNode.children = nodes
+      }
+
+      // Return root node
+      return rootNode
+    },
   },
 
   methods: {
     loadNewProto() {
       this.$emit('newProto')
+    },
+
+    resetSearch() {
+      this.searchText = ''
     },
 
     getNestedTypes(message) {
@@ -191,7 +240,6 @@ export default {
 
             if (referencedType.syntaxType === 'EnumDefinition') {
               // Type is Enum
-              console.log(referencedType.values)
               fields.push({
                 name: field.name,
                 kind: 'enum',
@@ -224,6 +272,63 @@ export default {
       // Return results
       return fields
     },
+
+    searchInNodes(nodes, searchText, filter) {
+      // Init variables
+      let result = []
+      let searchMatch = false
+      let lowerSearchText = searchText.toLowerCase()
+
+      for (let node of nodes) {
+        // Check if node matches search
+        node.searchMatch = node.name.toLowerCase().includes(lowerSearchText)
+
+        if (node.kind === 'nested') {
+          // Node has children => Search for match in children
+          let { nodes, searchMatch } = this.searchInNodes(
+            node.children,
+            searchText,
+            filter && !node.searchMatch
+          )
+
+          // Remove children if filter is enabled and no hit found
+          node.searchMatchChild = searchMatch
+          node.children = nodes
+        } else {
+          // Node has no children => match is always false
+          node.searchMatchChild = false
+        }
+
+        // Store node in results
+        if (filter) {
+          if (node.searchMatch || node.searchMatchChild) {
+            result.push(node)
+          }
+        } else {
+          result.push(node)
+        }
+
+        // Set searchMatch flag if search was found
+        if (node.searchMatch || node.searchMatchChild) {
+          searchMatch = true
+        }
+      }
+
+      // Return result
+      return {
+        nodes: result,
+        searchMatch: searchMatch,
+      }
+    },
   },
 }
 </script>
+
+<style scoped>
+#btn-to-top {
+  position: sticky;
+  bottom: 10px;
+  text-align: right;
+  padding-right: 10px;
+}
+</style>
