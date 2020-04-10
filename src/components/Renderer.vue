@@ -48,7 +48,7 @@
     <b-container>
       <b-form class="pb-5">
         <b-row>
-          <b-col cols="10">
+          <b-col cols="8">
             <b-form-group id="input-group-search">
               <b-form-input
                 id="input-search"
@@ -58,10 +58,21 @@
               </b-form-input>
             </b-form-group>
           </b-col>
+
           <b-col cols="2">
             <b-button variant="outline-primary" @click="resetSearch"
               >CLEAR</b-button
             >
+          </b-col>
+
+          <b-col cols="2">
+            <b-form-checkbox
+              v-model="searchShowChildren"
+              name="input-show-children"
+              switch
+            >
+              Show children
+            </b-form-checkbox>
           </b-col>
         </b-row>
       </b-form>
@@ -108,6 +119,7 @@ export default {
       ],
       sortType: 'POSITION',
       searchText: '',
+      searchShowChildren: true,
     }
   },
 
@@ -177,7 +189,8 @@ export default {
         let { nodes } = this.searchInNodes(
           rootNode.children,
           this.searchText,
-          true
+          true,
+          this.searchShowChildren
         )
         rootNode.children = nodes
       }
@@ -273,7 +286,7 @@ export default {
       return fields
     },
 
-    searchInNodes(nodes, searchText, filter) {
+    searchInNodes(nodes, searchText, filter, keepUnmatchedChildren) {
       // Init variables
       let result = []
       let searchMatch = false
@@ -288,12 +301,17 @@ export default {
           let { nodes, searchMatch } = this.searchInNodes(
             node.children,
             searchText,
-            filter && !node.searchMatch
+            filter && !node.searchMatch,
+            keepUnmatchedChildren
           )
 
-          // Remove children if filter is enabled and no hit found
+          // Remove children if keepUnmatchedChildren is not enabled and no hit found
           node.searchMatchChild = searchMatch
-          node.children = nodes
+          if (!keepUnmatchedChildren && !searchMatch) {
+            node.children = []
+          } else {
+            node.children = nodes
+          }
         } else {
           // Node has no children => match is always false
           node.searchMatchChild = false
