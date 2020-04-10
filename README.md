@@ -1,24 +1,9 @@
-# proto-browser
+# Proto Browser
 
-## Project setup
-```
-yarn install
-```
+Visualizer for Protobuf files, built with:
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [proto-parser](https://github.com/lancewuz/proto-parser)
+- [Vue.js](https://vuejs.org/)
+- [BootstrapVue](https://bootstrap-vue.js.org/)
+- [Axios](https://github.com/axios/axios)
+- [Lodash](https://lodash.com/)
