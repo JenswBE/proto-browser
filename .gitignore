@@ -6,6 +6,7 @@
 !/.eslintrc.js
 !/.gitignore
 !/.prettierrc
+!/.yarnrc.yml
 !/babel.config.js
 !/jsconfig.json
 !/LICENSE
@@ -16,6 +17,16 @@
 !/.github/
 !/.github/workflows/
 !/.github/workflows/build-and-publish.yml
+
+!.yarn
+!.yarn/releases
+!.yarn/releases/**
+!.yarn/plugins
+!.yarn/plugins/**
+!.yarn/sdks
+!.yarn/sdks/**
+!.yarn/versions
+!.yarn/versions/**
 
 !/public/
 !/public/.nojekyll
