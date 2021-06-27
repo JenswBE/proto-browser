@@ -93,9 +93,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/eslint-parser@npm:^7.14.5":
-  version: 7.14.5
-  resolution: "@babel/eslint-parser@npm:7.14.5"
+"@babel/eslint-parser@npm:^7.14.7":
+  version: 7.14.7
+  resolution: "@babel/eslint-parser@npm:7.14.7"
   dependencies:
     eslint-scope: ^5.1.1
     eslint-visitor-keys: ^2.1.0
@@ -103,7 +103,7 @@ __metadata:
   peerDependencies:
     "@babel/core": ">=7.11.0"
     eslint: ">=7.5.0"
-  checksum: 2f24858075b84ddc346cedd5638c499f56550ba7add6be205557b9c6fb519a1ee7af7669035099626160ac4a5a1243d583d955ce2409075a373e8a6bc2d75df3
+  checksum: 2cb99cc3cbe6efde53a55a113d3a3b2ddbd807489e1443c47391401986b71ff5a3c07ca2f565c39b501224a30142cd7eb75f2555174e54aeff60dacc073aeaa5
   languageName: node
   linkType: hard
 
@@ -3977,10 +3977,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.14.0":
-  version: 3.14.0
-  resolution: "core-js@npm:3.14.0"
-  checksum: fc830e61146f50241f431c711674a6af0a3633269a2a2afada3da1054f0c3b3a8b571fb4ca4c87d53193def47a4f56a18c32e832e6587b363ff0ff153508f300
+"core-js@npm:^3.15.1":
+  version: 3.15.1
+  resolution: "core-js@npm:3.15.1"
+  checksum: 162cc456311d54da079f9bf447a86f626c443f2893a2541fe159b520ec38730c0200fa61c9ce5a3743f450e36024ac754f5c0a2ca22053d60be8b4cfee6c4d2e
   languageName: node
   linkType: hard
 
@@ -4942,9 +4942,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vue@npm:^7.11.1":
-  version: 7.11.1
-  resolution: "eslint-plugin-vue@npm:7.11.1"
+"eslint-plugin-vue@npm:^7.12.1":
+  version: 7.12.1
+  resolution: "eslint-plugin-vue@npm:7.12.1"
   dependencies:
     eslint-utils: ^2.1.0
     natural-compare: ^1.4.0
@@ -4952,7 +4952,7 @@ __metadata:
     vue-eslint-parser: ^7.6.0
   peerDependencies:
     eslint: ^6.2.0 || ^7.0.0
-  checksum: e4ae6feb50ff8ed66711cebf234264d9ae52593153dc81560168942a84edadec76ecfad7e2bcae4139887214a534f689b881e74ad7d8a6afd87b75735c9355c9
+  checksum: 4fcf61f24fc35e3f017e0924ef5cac3ac6f5188be88f5b1edab036f5d25e52a0f05e0a73f632e55da77352ad96b3af492e911dc5f6e1b6da8d4fe9f29e400d02
   languageName: node
   linkType: hard
 
@@ -5006,9 +5006,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.28.0":
-  version: 7.28.0
-  resolution: "eslint@npm:7.28.0"
+"eslint@npm:^7.29.0":
+  version: 7.29.0
+  resolution: "eslint@npm:7.29.0"
   dependencies:
     "@babel/code-frame": 7.12.11
     "@eslint/eslintrc": ^0.4.2
@@ -5051,7 +5051,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 9d49d53ed56a1f1ccba9c71482722a91f2423432df70a3694d36ea478f0e3bb058034f170219f34f3d6b5cd5d47510b269b75e2b4117f88a3241b1db9cb95828
+  checksum: 812f8c5123860cf5bd877018ffd29abd52bbaaca55fdd616008c97da9bf47a20a7b7c7ecb7c8f753c06f77ea5d59480f3d6d76475699b2ea380237fbb7c6b3a2
   languageName: node
   linkType: hard
 
@@ -9223,12 +9223,12 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "prettier@npm:2.3.1"
+"prettier@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "prettier@npm:2.3.2"
   bin:
     prettier: bin-prettier.js
-  checksum: 9b4a695b87ce5f510fc20feec01cce7371f0fa0b92ffe79d543f6be52e2004c532861629de4d7ab1c577e1f649dce3cfccd62cb2ca6526b1da8d9c63eb84bf36
+  checksum: 4fd89a7f6a12b13456d359fba2b1dd0fc0a17cf33f8f15953ab9f43b21ea9b09b5a2861d63b558ca0577274ce606d390e70628cf93e26d19d6cb7f19c9eebc31
   languageName: node
   linkType: hard
 
@@ -9275,7 +9275,7 @@ fsevents@~2.3.1:
   resolution: "proto-browser@workspace:."
   dependencies:
     "@babel/core": ^7.14.6
-    "@babel/eslint-parser": ^7.14.5
+    "@babel/eslint-parser": ^7.14.7
     "@vue/cli-plugin-babel": ^4.5.13
     "@vue/cli-plugin-eslint": ^4.5.13
     "@vue/cli-plugin-router": ^4.5.13
@@ -9284,15 +9284,15 @@ fsevents@~2.3.1:
     axios: ^0.21.1
     bootstrap: ^4.6.0
     bootstrap-vue: ^2.21.2
-    core-js: ^3.14.0
-    eslint: ^7.28.0
+    core-js: ^3.15.1
+    eslint: ^7.29.0
     eslint-plugin-prettier: ^3.4.0
-    eslint-plugin-vue: ^7.11.1
+    eslint-plugin-vue: ^7.12.1
     lodash: ^4.17.21
-    prettier: ^2.3.1
+    prettier: ^2.3.2
     proto-parser: ^0.0.5
     vue: ^2.6.14
-    vue-router: ^3.5.1
+    vue-router: ^3.5.2
     vue-template-compiler: ^2.6.14
   languageName: unknown
   linkType: soft
@@ -11440,10 +11440,10 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"vue-router@npm:^3.5.1":
-  version: 3.5.1
-  resolution: "vue-router@npm:3.5.1"
-  checksum: cf53dc6bdb280090831fb68d324326a5d5da3cb686c4b5a53fd1ac25294c03009442c5102ac94f82596ea9851805ba4ef796cbe734e215602adede1fb94304c7
+"vue-router@npm:^3.5.2":
+  version: 3.5.2
+  resolution: "vue-router@npm:3.5.2"
+  checksum: 16866e33438e28b8a4d92bd5edeabd4304975543a3442d0e0e8160057fa550d5d6ab377c95ff96cb358820782a8749843097c7401e65e47d38782ffd84993655
   languageName: node
   linkType: hard
 
