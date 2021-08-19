@@ -1,4 +1,6 @@
-# Proto Browser
+# This project is no longer maintained
+
+## Proto Browser
 
 Visualizer for Protobuf files, built with:
 

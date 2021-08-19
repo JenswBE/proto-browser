@@ -3,10 +3,18 @@
     <b-jumbotron
       header="Proto Browser"
       header-level="4"
-      style="padding: 2rem 2rem;"
-    ></b-jumbotron>
+      style="padding: 2rem 2rem"
+    >
+      <a href="https://github.com/JenswBE/proto-browser">
+        https://github.com/JenswBE/proto-browser
+      </a>
+    </b-jumbotron>
 
     <b-container>
+      <b-alert variant="warning" show>
+        This project is no longer maintained, use at own risk.
+      </b-alert>
+
       <b-card>
         <b-form>
           <b-form-group
@@ -61,7 +69,7 @@ import axios from 'axios'
 import * as parser from 'proto-parser'
 
 export default {
-  data: function() {
+  data: function () {
     return {
       ioProtoFile: null,
       ioProtoURL: '',
